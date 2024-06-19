@@ -1,0 +1,35 @@
+El proyecto consiste en la implementación y entrenamiento de una Conditional Generative Adversarial Network (CGAN) utilizando el conjunto de datos mnist. La CGAN a diferencia de la GAN recibe etiquetas en el entrenamiento. De esta manera, el generador puede ser aprovechado para producir una imagen fake pero no aleatoria, por ejemplo, en el caso del mnist si le paso un 7 la idea es que genere una imagen de un 7 basado en el aprendizaje del mnist, es decir con la caligrafía aprendida por el mnist.
+
+
+1. Dataset y Preprocesamiento:
+   - Se utiliza el conjunto de datos MNIST, ampliamente utilizado en problemas de reconocimiento de dígitos.
+   - Las imágenes se normalizan para estar en el rango [0, 1] para facilitar el procesamiento y mejorar la convergencia del modelo.
+
+2. Modelo Generador:
+   - El generador toma como entrada un vector de ruido aleatorio y una etiqueta de clase que representa el dígito que se desea generar.
+   - Utiliza capas densas y convolucionales transpuestas para transformar el vector de ruido en una imagen de 28x28 píxeles que represente el dígito especificado.
+
+3. Modelo Discriminador:
+   - El discriminador es un clasificador binario que recibe como entrada una imagen junto con su etiqueta de clase.
+   - Utiliza capas convolucionales para distinguir entre imágenes reales del MNIST y las imágenes generadas por el generador.
+
+4. Entrenamiento:
+   - El entrenamiento se realiza en dos fases alternas:
+     - Fase Discriminador: Se entrena para distinguir correctamente entre imágenes reales del MNIST y las generadas por el generador.
+     - Fase Adversarial: Se entrena para que el generador engañe al discriminador generando imágenes que parezcan reales según la etiqueta de clase especificada.
+
+5. Métricas y Evaluación
+   - Se implementan métricas como la precisión, el puntaje F1 y el error de generalización para evaluar el desempeño del modelo.
+   - Estas métricas se calculan sobre un conjunto de validación para medir la capacidad del modelo para generar dígitos realistas y generalizar a nuevas muestras.
+
+6. Resultados y Conclusión:
+   - Se monitorizan las pérdidas del discriminador y el generador durante el entrenamiento para evaluar el progreso y la convergencia del modelo.
+   - Se generan ejemplos de dígitos para visualizar cómo mejora la calidad de las imágenes generadas a medida que avanza el entrenamiento.
+   - Se discuten las limitaciones del modelo y las oportunidades para futuras mejoras, como la exploración de arquitecturas más complejas y la optimización de hiperparámetros.
+
+En resumen, el proyecto demuestra la capacidad de las CGANs para generar imágenes de dígitos manuscritos realistas y específicos mediante el uso de etiquetas de clase. En general, este trabajo es una versión simple de problemas más sofisticados como generar una imagen a partir de un texto, por ejemplo una flor violeta con 7 pétalos, donde hay muchísimas más etiquetas asociadas a cada imagen de entrenamiento, en nuestro caso tenemos 10 etiquetas posibles y solo una por cada imagen (una correspondiente a cada dígito). 
+
+
+Extra:
+- Eventualmente me gustaría desarrollar otra red que reconozca una ecuación escrita y la resuelva en Python y luego el número resultante lo escriba con la caligrafía del mnist. 
+- Otra opción sería probar entrenar un data set de fotos con imagenes con muchas etiquetas para ver si puedo generar una imagen fake que cumpla con las condiciones pedidas.
