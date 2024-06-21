@@ -7,12 +7,15 @@ En el presente trabajo se implementó una red llamada Conditional Generative Adv
 Durante el desarrollo del proyecto, se experimentó con diferentes arquitecturas y técnicas de regularización para optimizar el rendimiento del generador y el discriminador de la cGAN. Se observó que el modelo logró resultados prometedores en la generación de imágenes del conjunto de datos MNIST, con resultados variables en CIFAR-10 y desafíos significativos en CIFAR-100. Las métricas de evaluación como la precisión, el puntaje F1 y la pérdida mostraron comportamientos esperados en el conjunto de entrenamiento, pero con variabilidad en el conjunto de prueba.vLos resultados mostraron que el generador de la cGAN pudo generar imágenes del MNIST de manera precisa, no obstante el desempeño con el CIFAR-10 fue muy bajo y para el CIFAR-100 fue aún peor. Las métricas como la precisión (accuracy), el F1-score y la pérdida (loss) indicaron un buen desempeño en el conjunto de entrenamiento pero mostraron mucha variabilidad y ruido en el conjunto de prueba.
 
 # Análisis Exploratorio de Datos (EDA) y PCA
-En esta sección se presenta un análisis exploratorio de datos (EDA) realizado sobre el dataset utilizado, seguido de un análisis de Componentes Principales (PCA) para explorar la estructura y la varianza de los datos.
 
-Análisis Exploratorio de Datos (EDA)
-Inicialmente, se realizó un análisis exploratorio de datos utilizando la biblioteca Pandas de Python para explorar la distribución y la estructura del dataset. Este análisis incluyó:
+Se realizó un análisis exploratorio de datos (EDA) sobre los datasets utilizados, seguido de un análisis de Componentes Principales (PCA) para explorar la estructura y la varianza de los datos.
 
-Distribución del Contenido del Dataset: Se examinó la distribución de las etiquetas y las características del dataset utilizando funciones como describe() y gráficos como histogramas y diagramas de dispersión para comprender la variabilidad y la frecuencia de los datos.
+- Análisis Exploratorio de Datos (EDA)
+
+Inicialmente, se realizó un análisis exploratorio de datos utilizando el paquete Pandas de Python para explorar la distribución y la estructura del dataset. Este análisis incluyó:
+
+Distribución del Contenido del Dataset: Se examinó la distribución de las etiquetas y las características del dataset utilizando funciones como describe(), info() e histogramas y para comprender la variabilidad y la frecuencia de los datos.
+
 Análisis de Componentes Principales (PCA)
 Posteriormente, se aplicó el análisis de Componentes Principales (PCA) para explorar la estructura de los datos en un espacio dimensional reducido. Los hallazgos incluyeron:
 
@@ -92,14 +95,14 @@ En una Conditional Generative Adversarial Network (cGAN), las pérdidas del disc
 - Pérdida del Discriminador
     La pérdida del discriminador (D) se compone de dos términos: la pérdida para las imágenes reales y la pérdida para las imágenes generadas (falsas). 
 
-    \[ \min_D \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}}[\log D(\mathbf{x})] + \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}}[\log(1 - D(G(\mathbf{z}|\mathbf{y})))], \]
+    $$ \min_D \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}}[\log D(\mathbf{x})] + \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}}[\log(1 - D(G(\mathbf{z}|\mathbf{y})))], $$
 
     Aquí, \(D(\mathbf{x}) \) representa la probabilidad de que \(\mathbf{x}\) sea una imagen real y \( G(\mathbf{z}|\mathbf{y}) \) es la imagen generada por el generador condicionado por la etiqueta de clase \(\mathbf{y}\) y el ruido \(\mathbf{z}\).
 
 - Pérdida del Generador
     La pérdida del generador (G) se basa en cómo el discriminador clasifica las imágenes generadas. El objetivo del generador es engañar al discriminador, haciéndole creer que las imágenes generadas son reales.
 
-    \[ \min_G \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}}[\log(1 - D(G(\mathbf{z}|\mathbf{y}))))]. \]
+    $ \min_G \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}}[\log(1 - D(G(\mathbf{z}|\mathbf{y}))))]. $
 
     Sin embargo, en la práctica, se utiliza \( \max_G \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}}[\log D(G(\mathbf{z}|\mathbf{y})))], \) para el generador para mejorar la estabilidad del entrenamiento.
 
@@ -111,7 +114,7 @@ Claro, aquí te muestro cómo se verían las ecuaciones de las métricas de eval
 
 # Teoría sobre Métricas de Evaluación en Machine Learning
 
-En Machine Learning, las métricas de evaluación son herramientas clave para medir el rendimiento y la eficacia de los modelos entrenados. Entre las métricas más utilizadas se encuentran Precision, Recall, F1-score y Accuracy. A continuación, se explica cada una de estas métricas utilizadas en este trabajo:
+En Machine Learning, las métricas de evaluación son herramientas clave para medir el rendimiento y la eficacia de los modelos entrenados. En este trabajo, se utilizó Precision, Recall, F1-score y Accuracy del paquete sklearn. A continuación, se explica cada una de estas métricas utilizadas en este trabajo:
 
 - Accuracy (Exactitud)
     La exactitud es una medida general del rendimiento de un modelo y se calcula como el número de predicciones correctas dividido por el número total de predicciones realizadas.
