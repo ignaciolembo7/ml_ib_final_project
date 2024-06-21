@@ -86,6 +86,7 @@ El discriminador es una red neuronal que distingue entre imágenes reales y gene
     Las características extraídas se aplanan y pasan por una capa densa final que produce una probabilidad escalar. Esta probabilidad indica si la imagen es real o generada. Se utiliza una función de activación sigmoide para asegurar que la salida esté en el rango [0, 1] siendo 0 totalmente fake y 1 totalmente real.
 
 
+
 # Cálculo de la Loss en cGANs
 
 En una red Generative Adversarial Network (GAN), y por extensión en una Conditional GAN (cGAN), el objetivo es entrenar dos redes neuronales, un generador (G) y un discriminador (D), que compiten entre sí. El discriminador trata de distinguir entre las imágenes reales y las generadas por el generador, mientras que el generador intenta crear imágenes que sean indistinguibles de las reales para el discriminador.
@@ -95,14 +96,14 @@ En una Conditional Generative Adversarial Network (cGAN), las pérdidas del disc
 - Pérdida del Discriminador
     La pérdida del discriminador (D) se compone de dos términos: la pérdida para las imágenes reales y la pérdida para las imágenes generadas (falsas). 
 
-    $$ \min_D \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}}[\log D(\mathbf{x})] + \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}}[\log(1 - D(G(\mathbf{z}|\mathbf{y})))], $$
+    ![alt text](CodeCogsEqn.gif)
 
     Aquí, \(D(\mathbf{x}) \) representa la probabilidad de que \(\mathbf{x}\) sea una imagen real y \( G(\mathbf{z}|\mathbf{y}) \) es la imagen generada por el generador condicionado por la etiqueta de clase \(\mathbf{y}\) y el ruido \(\mathbf{z}\).
 
 - Pérdida del Generador
     La pérdida del generador (G) se basa en cómo el discriminador clasifica las imágenes generadas. El objetivo del generador es engañar al discriminador, haciéndole creer que las imágenes generadas son reales.
 
-    $ \min_G \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}}[\log(1 - D(G(\mathbf{z}|\mathbf{y}))))]. $
+    ![alt text](<CodeCogsEqn (1).gif>)
 
     Sin embargo, en la práctica, se utiliza \( \max_G \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}}[\log D(G(\mathbf{z}|\mathbf{y})))], \) para el generador para mejorar la estabilidad del entrenamiento.
 
@@ -118,8 +119,8 @@ En Machine Learning, las métricas de evaluación son herramientas clave para me
 
 - Accuracy (Exactitud)
     La exactitud es una medida general del rendimiento de un modelo y se calcula como el número de predicciones correctas dividido por el número total de predicciones realizadas.
-
-    \[ \text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}} \]
+    
+    ![alt text](<CodeCogsEqn (2).gif>)
 
     - TP (True Positive): Número de ejemplos positivos que fueron correctamente clasificados como positivos.
     - TN (True Negative): Número de ejemplos negativos que fueron correctamente clasificados como negativos.
@@ -129,7 +130,7 @@ En Machine Learning, las métricas de evaluación son herramientas clave para me
 - Precision (Precisión)
     La precisión mide la proporción de ejemplos positivos que fueron correctamente identificados.
 
-    \[ \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}} \]
+    ![alt text](<CodeCogsEqn (3).gif>)
 
 - Recall (Recuperación o Sensibilidad)
     El recall mide la proporción de ejemplos positivos que fueron correctamente identificados por el modelo.
