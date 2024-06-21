@@ -6,27 +6,17 @@ En el presente trabajo se implementó una red llamada Conditional Generative Adv
 
 Durante el desarrollo del proyecto, se experimentó con diferentes arquitecturas y técnicas de regularización para optimizar el rendimiento del generador y el discriminador de la cGAN. Se observó que el modelo logró resultados prometedores en la generación de imágenes del conjunto de datos MNIST, con resultados variables en CIFAR-10 y desafíos significativos en CIFAR-100. Las métricas de evaluación como la precisión, el puntaje F1 y la pérdida mostraron comportamientos esperados en el conjunto de entrenamiento, pero con variabilidad en el conjunto de prueba.vLos resultados mostraron que el generador de la cGAN pudo generar imágenes del MNIST de manera precisa, no obstante el desempeño con el CIFAR-10 fue muy bajo y para el CIFAR-100 fue aún peor. Las métricas como la precisión (accuracy), el F1-score y la pérdida (loss) indicaron un buen desempeño en el conjunto de entrenamiento pero mostraron mucha variabilidad y ruido en el conjunto de prueba.
 
-# Análisis Exploratorio de Datos (EDA) y PCA
+# Análisis Exploratorio de Datos (EDA) y PCA para el MNIST
 
 Se realizó un análisis exploratorio de datos (EDA) sobre los datasets utilizados, seguido de un análisis de Componentes Principales (PCA) para explorar la estructura y la varianza de los datos.
 
 - Análisis Exploratorio de Datos (EDA)
 
-Inicialmente, se realizó un análisis exploratorio de datos utilizando el paquete Pandas de Python para explorar la distribución y la estructura del dataset. Este análisis incluyó:
+    Inicialmente, se realizó un análisis exploratorio de datos utilizando el paquete Pandas de Python para explorar la distribución y la estructura del dataset. Este análisis incluyó examinar la distribución de las etiquetas y las características del dataset utilizando funciones como describe(), info() e histogramas y para comprender la variabilidad y la frecuencia de los datos.
 
-Distribución del Contenido del Dataset: Se examinó la distribución de las etiquetas y las características del dataset utilizando funciones como describe(), info() e histogramas y para comprender la variabilidad y la frecuencia de los datos.
+- Análisis de Componentes Principales (PCA)
 
-Análisis de Componentes Principales (PCA)
-Posteriormente, se aplicó el análisis de Componentes Principales (PCA) para explorar la estructura de los datos en un espacio dimensional reducido. Los hallazgos incluyeron:
-
-Suma Acumulada de la Varianza: Se calculó la suma acumulada de la varianza explicada por los componentes principales. Se observó que la varianza explicada alcanza valores cercanos a 1 después de considerar aproximadamente 200 componentes principales, lo que sugiere que estos componentes capturan la mayoría de la variabilidad en los datos.
-
-Gráfico de Componentes Principales: Se realizó un gráfico de dispersión de dos componentes principales seleccionados para visualizar la estructura de los datos en un espacio bidimensional. Se observó que la información está bastante mezclada en este espacio reducido, indicando una posible superposición o complejidad en la distribución de las clases o categorías del dataset.
-
-Este análisis exploratorio y de PCA proporcionó información valiosa sobre la estructura y la variabilidad de los datos, lo cual es fundamental para comprender cómo se distribuyen las clases o categorías en el dataset y para preparar adecuadamente los datos para la construcción y evaluación de modelos de aprendizaje automático.
-
-Conclusiones del Análisis
-El EDA reveló patrones importantes en la distribución y estructura del dataset, mientras que el PCA destacó la necesidad de considerar un número significativo de componentes principales para capturar la mayoría de la varianza en los datos. Estos hallazgos son fundamentales para guiar la selección de características, la preparación de datos y el diseño de modelos en futuros desarrollos en Machine Learning basados en este dataset específico.
+    Posteriormente, se aplicó el análisis de Componentes Principales (PCA) para explorar la estructura de los datos en un espacio dimensional reducido.  Se calculó la suma acumulada de la varianza explicada por los componentes principales. Se observó que la varianza explicada alcanza valores cercanos a 1 después de considerar aproximadamente 200 componentes principales, lo que sugiere que se necesitan un gran número de componentes para capturar la mayoría de la variabilidad en los datos. Además, se realizó un gráfico de dispersión en función de las dos componentes principales para visualizar la estructura de los datos en un espacio bidimensional. Se observó que cada uno de los digitos se encuentra concetrado en una zona del espacio pero sin embargo las nubes de puntos correspondientes a cada dígito están mezclada en este espacio reducido, indicando complejidad en la distribución de las clases.
 
 # Teoría de las Conditional Generative Adversarial Networks (cGANs)
 
@@ -34,7 +24,7 @@ Las cGANs son una extensión de las Generative Adversarial Networks (GANs). Prim
 
 Por otra parte, las cGANs introducen una condición adicional en ambas redes, lo que permite generar imágenes específicas de una clase determinada. Esta condición puede ser cualquier tipo de información adicional, en este trabajo la condición era la etiqueta de cada imagen, por ejemplo en el MNIST las etiquetas eran los dígitos de cada imagen y en el CIFAR el objeto, persona o animal que estaba en la imagen. Así, el generador no solo toma un vector de ruido como entrada, sino también la condición, y genera una imagen correspondiente a esa condición. El discriminador, por su parte, recibe tanto la imagen (real o generada) como la condición y debe determinar si la imagen es real o falsa. En la figura se detalla la cGAN en general. A continuación profundizaremos en su arquitectura e implementación
 
-![alt text](image.png)
+![alt text](images/image.png)
 
 # Construcción del Generador y el Discriminador en una cGAN
 
@@ -86,7 +76,6 @@ El discriminador es una red neuronal que distingue entre imágenes reales y gene
     Las características extraídas se aplanan y pasan por una capa densa final que produce una probabilidad escalar. Esta probabilidad indica si la imagen es real o generada. Se utiliza una función de activación sigmoide para asegurar que la salida esté en el rango [0, 1] siendo 0 totalmente fake y 1 totalmente real.
 
 
-
 # Cálculo de la Loss en cGANs
 
 En una red Generative Adversarial Network (GAN), y por extensión en una Conditional GAN (cGAN), el objetivo es entrenar dos redes neuronales, un generador (G) y un discriminador (D), que compiten entre sí. El discriminador trata de distinguir entre las imágenes reales y las generadas por el generador, mientras que el generador intenta crear imágenes que sean indistinguibles de las reales para el discriminador.
@@ -96,16 +85,20 @@ En una Conditional Generative Adversarial Network (cGAN), las pérdidas del disc
 - Pérdida del Discriminador
     La pérdida del discriminador (D) se compone de dos términos: la pérdida para las imágenes reales y la pérdida para las imágenes generadas (falsas). 
 
-    ![alt text](CodeCogsEqn.gif)
+    ![alt text](<images/CodeCogsEqn (50).png>)
 
-    Aquí, \(D(\mathbf{x}) \) representa la probabilidad de que \(\mathbf{x}\) sea una imagen real y \( G(\mathbf{z}|\mathbf{y}) \) es la imagen generada por el generador condicionado por la etiqueta de clase \(\mathbf{y}\) y el ruido \(\mathbf{z}\).
+    Aquí, D(x) representa la probabilidad de que x sea una imagen real y G(z|y) es la imagen generada por el generador condicionado por la etiqueta de clase y, y el ruido z.
 
 - Pérdida del Generador
     La pérdida del generador (G) se basa en cómo el discriminador clasifica las imágenes generadas. El objetivo del generador es engañar al discriminador, haciéndole creer que las imágenes generadas son reales.
 
-    ![alt text](<CodeCogsEqn (1).gif>)
+    ![alt text](<images/CodeCogsEqn (52).png>)
 
-    Sin embargo, en la práctica, se utiliza \( \max_G \mathbb{E}_{\mathbf{z} \sim p_{\mathbf{z}}}[\log D(G(\mathbf{z}|\mathbf{y})))], \) para el generador para mejorar la estabilidad del entrenamiento.
+    Sin embargo, en la práctica, se utiliza 
+
+    ![alt text](<images/CodeCogsEqn (57).png>)
+    
+    para el generador para mejorar la estabilidad del entrenamiento.
 
 En resumen:
     El discriminador se entrena para maximizar la probabilidad de asignar la etiqueta correcta a las imágenes reales y generadas. El generador se entrena para minimizar la probabilidad de que el discriminador clasifique las imágenes generadas como falsas.
@@ -119,8 +112,8 @@ En Machine Learning, las métricas de evaluación son herramientas clave para me
 
 - Accuracy (Exactitud)
     La exactitud es una medida general del rendimiento de un modelo y se calcula como el número de predicciones correctas dividido por el número total de predicciones realizadas.
-    
-    ![alt text](<CodeCogsEqn (2).gif>)
+
+    ![alt text](<images/CodeCogsEqn (53).png>)
 
     - TP (True Positive): Número de ejemplos positivos que fueron correctamente clasificados como positivos.
     - TN (True Negative): Número de ejemplos negativos que fueron correctamente clasificados como negativos.
@@ -130,17 +123,17 @@ En Machine Learning, las métricas de evaluación son herramientas clave para me
 - Precision (Precisión)
     La precisión mide la proporción de ejemplos positivos que fueron correctamente identificados.
 
-    ![alt text](<CodeCogsEqn (49).png>)
+    ![alt text](<images/CodeCogsEqn (54).png>)
 
 - Recall (Recuperación o Sensibilidad)
     El recall mide la proporción de ejemplos positivos que fueron correctamente identificados por el modelo.
-    \[ \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} \]
+
+    ![alt text](<images/CodeCogsEqn (55).png>)
 
 - F1-score
-
     El F1-score es la media armónica de precision y recall y proporciona un equilibrio entre ambas métricas. Es útil cuando hay clases desequilibradas en los datos.
 
-    \[ \text{F1-score} = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}} \]
+    ![alt text](<images/CodeCogsEqn (56).png>)
 
     El F1-score alcanza su mejor valor en 1 (precision y recall perfectos) y su peor valor en 0.
 
