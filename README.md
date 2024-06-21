@@ -2,8 +2,7 @@
 
 # Resumen del trabajo
 
-![alt text](image.png)
-
+![alt text width="200" height="200"](image.png)
 
 
 # Carpetas del repositorio. 
