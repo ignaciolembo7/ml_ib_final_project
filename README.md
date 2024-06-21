@@ -130,7 +130,7 @@ En Machine Learning, las métricas de evaluación son herramientas clave para me
 - Precision (Precisión)
     La precisión mide la proporción de ejemplos positivos que fueron correctamente identificados.
 
-    ![alt text](<CodeCogsEqn (3).gif>)
+    ![alt text](<CodeCogsEqn (49).png>)
 
 - Recall (Recuperación o Sensibilidad)
     El recall mide la proporción de ejemplos positivos que fueron correctamente identificados por el modelo.
