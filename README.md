@@ -2,6 +2,8 @@
 
 # Resumen del trabajo
 
+![alt text](image.png)
+
 
 
 # Carpetas del repositorio. 
