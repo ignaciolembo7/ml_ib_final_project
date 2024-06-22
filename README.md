@@ -2,7 +2,7 @@
 
 # Importante: 
 
-Los resultados obtenidos para cada modelo se encuentran en la carpeta [text](resultados). NO COMPILAR. Solo compilar el último bloque del archivo cgan_train_mX.ipynb para generar una imagen fake a pedido del usuario. La lista de etiquetas posibles se encuentra en el mismo bloque. En cada carpeta de resultados están los distintos modelos implementados para cada dataset. Los números de modelos hacen referencia a la arquitectura de los mismos mientras que las versiones de cada modelo corresponden a variaciones en los parámetros de los mismos (épocas, batchsize, etc). Además, en cada carpeta se encuentra la evolución de las imagenes fake producidas por el generador a lo largo de las épocas.
+Los resultados obtenidos para cada modelo se encuentran en la carpeta [resultados](resultados). NO COMPILAR. Solo compilar el último bloque del archivo cgan_train_mX.ipynb para generar una imagen fake a pedido del usuario. La lista de etiquetas posibles se encuentra en el mismo bloque. En cada carpeta de resultados están los distintos modelos implementados para cada dataset. Los números de modelos hacen referencia a la arquitectura de los mismos mientras que las versiones de cada modelo corresponden a variaciones en los parámetros de los mismos (épocas, batchsize, etc). Además, en cada carpeta se encuentra la evolución de las imagenes fake producidas por el generador a lo largo de las épocas.
 
 # Resumen del trabajo
 
@@ -12,7 +12,7 @@ Durante el desarrollo del proyecto, se experimentó con diferentes arquitecturas
 
 # Análisis Exploratorio de Datos (EDA) y PCA
 
-Se realizó un análisis exploratorio de datos (EDA) sobre los datasets utilizados, seguido de un análisis de Componentes Principales (PCA) para explorar la estructura y la varianza de los datos.
+Se realizó un análisis exploratorio de datos ([EDA](EDA)) sobre los datasets utilizados, seguido de un análisis de Componentes Principales (PCA) para explorar la estructura y la varianza de los datos.
 
 Inicialmente, se realizó un análisis exploratorio de datos utilizando el paquete Pandas de Python para explorar la distribución y la estructura del dataset. Este análisis incluyó examinar la distribución de las etiquetas y las características del dataset utilizando funciones como describe(), info() e histogramas y para comprender la variabilidad y la frecuencia de los datos. Para el MNIST y el CIFAR 10, cada pixel por cada canal representa una característica de la imagen, de esta manera el MNIST tiene 28x28x1 + 1 = 785 features y el CIFAR10 32x32x3 + 1 = 3073 features (donde también se esta contando el label correspondiente a la imagen).
 
