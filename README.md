@@ -1,16 +1,16 @@
-### Proyecto final de Machine Learning
+# Proyecto final de Machine Learning
 
-# Importante: 
+## Importante: 
 
 Los resultados obtenidos para cada modelo se encuentran en la carpeta [resultados](resultados). NO COMPILAR. Solo compilar el último bloque del archivo cgan_train_mX.ipynb para generar una imagen fake a pedido del usuario. La lista de etiquetas posibles se encuentra en el mismo bloque. En cada carpeta de resultados están los distintos modelos implementados para cada dataset. Los números de modelos hacen referencia a la arquitectura de los mismos mientras que las versiones de cada modelo corresponden a variaciones en los parámetros de los mismos (épocas, batchsize, etc). Además, en cada carpeta se encuentra la evolución de las imagenes fake producidas por el generador a lo largo de las épocas.
 
-# Resumen del trabajo
+## Resumen del trabajo
 
 En el presente trabajo se implementó una red llamada Conditional Generative Adversarial Networks (cGAN) utilizando TensorFlow y Keras. El objetivo fue entrenar la red con los datasets MNIST, CIFAR-10 y CIFAR-100 para generar imágenes correspondientes a cada uno de estos conjuntos de datos de forma controlada, es decir generar una imagen fake a pedido del usuario. Se exploraron diversas variantes de la cGAN basadas en investigaciones previas, tales como la adición de capas y modificación de parámetros con el propósito de mejorar la precisión, reducir la pérdida y obtener imágenes de mayor calidad.
 
 Durante el desarrollo del proyecto, se experimentó con diferentes arquitecturas y técnicas de regularización para optimizar el rendimiento del generador y el discriminador de la cGAN. Se observó que utilizando cGAN en general, se lograron resultados muy positivos en la generación de imágenes del conjunto de datos MNIST, mientras que para el CIFAR-10 y CIFAR-100, no fue tan positivo el resultado. Las métricas de evaluación como la precisión, el puntaje F1 y la pérdida mostraron comportamientos esperados en el conjunto de entrenamiento, pero con mucha variabilidad en el conjunto de prueba. Los resultados mostraron que el generador de la cGAN pudo generar imágenes del MNIST de manera precisa, no obstante el desempeño con el CIFAR-10 fue muy bajo y para el CIFAR-100 fue aún peor. 
 
-# Análisis Exploratorio de Datos (EDA) y PCA
+## Análisis Exploratorio de Datos (EDA) y PCA
 
 Se realizó un análisis exploratorio de datos ([EDA](EDA)) sobre los datasets utilizados, seguido de un análisis de Componentes Principales (PCA) para explorar la estructura y la varianza de los datos.
 
@@ -20,7 +20,7 @@ Posteriormente, se aplicó el análisis de Componentes Principales (PCA) para ex
 
 Además, se realizó un gráfico de dispersión en función de las dos componentes principales para visualizar la estructura de los datos en un espacio bidimensional. En el MNIST se observó que cada uno de los digitos se encuentra concentrado en una zona del espacio pero sin embargo las nubes de puntos correspondientes a cada dígito están mezclada en este espacio reducido, indicando complejidad en la distribución de las clases. Para el CIFAR10 la información se distribuye en todo el espacio de forma prácticamente homogenea.
 
-# Teoría de las Conditional Generative Adversarial Networks (cGANs)
+## Teoría de las Conditional Generative Adversarial Networks (cGANs)
 
 Las cGANs son una extensión de las Generative Adversarial Networks (GANs). Primero definamos las GANs. Estas consisten en dos redes neuronales que compiten entre sí: un generador (G) y un discriminador (D). El generador crea imágenes falsas a partir de ruido aleatorio, mientras que el discriminador trata de distinguir entre las imágenes reales del conjunto de datos y las imágenes falsas generadas por el generador. El objetivo del generador es engañar al discriminador para que no pueda diferenciar entre las imágenes reales y las generadas.
 
@@ -28,9 +28,9 @@ Por otra parte, las cGANs introducen una condición adicional en ambas redes, lo
 
 ![alt text](images/image.png)
 
-# Construcción del Generador y el Discriminador en una cGAN
+## Construcción del Generador y el Discriminador en una cGAN
 
-# Generador (G)
+## Generador (G)
 
 El generador en una cGAN es responsable de crear imágenes sintéticas que se asemejan a las imágenes reales del conjunto de datos. En esta implementación, el generador toma dos entradas: un vector de ruido y una etiqueta de clase. El proceso de construcción del generador se puede resumir en los siguientes pasos:
 
@@ -52,7 +52,7 @@ El generador en una cGAN es responsable de crear imágenes sintéticas que se as
 - Generación de la Imagen Final:
     Finalmente, la capa de convolución transpuesta final genera la imagen de salida con la misma dimensión y canales de color que las imágenes del conjunto de datos original. Se utiliza una función de activación tangente hiperbólica (tanh) para asegurar que los valores de los píxeles estén en un rango adecuado.
 
-# Discriminador (D)
+## Discriminador (D)
 
 El discriminador es una red neuronal que distingue entre imágenes reales y generadas. En una cGAN, también toma como entrada la etiqueta de clase correspondiente a la imagen. La construcción del discriminador se puede resumir en los siguientes pasos:
 
@@ -78,7 +78,7 @@ El discriminador es una red neuronal que distingue entre imágenes reales y gene
     Las características extraídas se aplanan y pasan por una capa densa final que produce una probabilidad escalar. Esta probabilidad indica si la imagen es real o generada. Se utiliza una función de activación sigmoide para asegurar que la salida esté en el rango [0, 1] siendo 0 totalmente fake y 1 totalmente real.
 
 
-# Cálculo de la Loss en cGANs (juego minimax)
+## Cálculo de la Loss en cGANs (juego minimax)
 
 En una Generative Adversarial Network (GAN), y por extensión en una Conditional GAN (cGAN), el objetivo es entrenar dos redes neuronales, un generador (G) y un discriminador (D), que compitan entre sí. En dicha competencia, el discriminador trata de distinguir entre las imágenes reales y las generadas por el generador, mientras que el generador intenta crear imágenes que sean indistinguibles de las reales para el discriminador.
 
@@ -95,7 +95,7 @@ En resumen:
 
 ![alt text](images/image3.png)
 
-# Teoría sobre Métricas de Evaluación en Machine Learning
+## Teoría sobre Métricas de Evaluación en Machine Learning
 
 En Machine Learning, las métricas de evaluación son herramientas clave para medir el rendimiento y la eficacia de los modelos entrenados. En este trabajo, se utilizó Precision, Recall, F1-score y Accuracy del paquete sklearn. A continuación, se explica cada una de estas métricas utilizadas en este trabajo:
 
@@ -126,7 +126,7 @@ En Machine Learning, las métricas de evaluación son herramientas clave para me
 
     El F1-score alcanza su mejor valor en 1 (precision y recall perfectos) y su peor valor en 0.
 
-# Resultados y discusión de cada modelo
+## Resultados y discusión de cada modelo
 
 En este punto se mencionarán las características más relevantes de cada modelo. Para más detalles se puede entrar a cada archivo .ipynb donde se encontrá la implementación completa de cada modelo.
 
@@ -198,7 +198,7 @@ En este punto se mencionarán las características más relevantes de cada model
 
     En este caso, existen imágenes generadas que se asemejan a lo esperado y un humano externo puede identificar qué es solo viendo la imagen. Sin embargo, hay que realizar varias generaciones de una misma imágen hasta obtener una buena imagen que se parezca a lo esperado.
 
-# Conclusiones del Trabajo
+## Conclusiones del Trabajo
 
 A lo largo del desarrollo de este proyecto, se implementaron y evaluaron múltiples modelos de Redes Generativas Adversariales Condicionales (cGANs) para la generación de imágenes en diferentes datasets, incluyendo MNIST, CIFAR10 y CIFAR100. Cada modelo fue ajustado y modificado basándose en arquitecturas implementadas en trabajos anteriores, con el objetivo de mejorar la precisión, reducir la loss y generar imágenes de mejor calidad.
 
