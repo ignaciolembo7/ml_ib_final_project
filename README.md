@@ -2,19 +2,19 @@
 
 # Importante: 
 
-Los resultados obtenidos para cada modelo se encuentran en la carpeta resultados. NO COMPILAR. Solo compilar el último bloque del archivo cgan_train_mX.ipynb para generar una imagen fake a pedido del usuario. La lista de etiquetas posibles se encuentra en el mismo bloque. En cada carpeta de resultados estan los distintos modelos implementados para cada dataset. Los némeros de modelos hacen referencia a la arquitectura de los mismos mientras que las versiones de cada modelo corresponden a variaciones en los parámetros de los mismos (épocas, batchsize, etc). Además, en cada carpeta se encuentra la evolución de las imagenes fake producidas por el generador a lo largo de las épocas.
+Los resultados obtenidos para cada modelo se encuentran en la carpeta [text](resultados). NO COMPILAR. Solo compilar el último bloque del archivo cgan_train_mX.ipynb para generar una imagen fake a pedido del usuario. La lista de etiquetas posibles se encuentra en el mismo bloque. En cada carpeta de resultados están los distintos modelos implementados para cada dataset. Los números de modelos hacen referencia a la arquitectura de los mismos mientras que las versiones de cada modelo corresponden a variaciones en los parámetros de los mismos (épocas, batchsize, etc). Además, en cada carpeta se encuentra la evolución de las imagenes fake producidas por el generador a lo largo de las épocas.
 
 # Resumen del trabajo
 
-En el presente trabajo se implementó una red llamada Conditional Generative Adversarial Networks (cGAN) utilizando TensorFlow y Keras. El objetivo fue entrenar la red con los datasets MNIST, CIFAR-10 y CIFAR-100 para generar imágenes correspondientes a cada uno de estos conjuntos de datos. Se exploraron diversas variantes de la cGAN basadas en investigaciones previas, tales como la adición de capas y la modificación de parámetros, con el propósito de mejorar la precisión, reducir la pérdida y obtener imágenes de mayor calidad
+En el presente trabajo se implementó una red llamada Conditional Generative Adversarial Networks (cGAN) utilizando TensorFlow y Keras. El objetivo fue entrenar la red con los datasets MNIST, CIFAR-10 y CIFAR-100 para generar imágenes correspondientes a cada uno de estos conjuntos de datos de forma controlada, es decir generar una imagen fake a pedido del usuario. Se exploraron diversas variantes de la cGAN basadas en investigaciones previas, tales como la adición de capas y modificación de parámetros con el propósito de mejorar la precisión, reducir la pérdida y obtener imágenes de mayor calidad.
 
-Durante el desarrollo del proyecto, se experimentó con diferentes arquitecturas y técnicas de regularización para optimizar el rendimiento del generador y el discriminador de la cGAN. Se observó que el modelo logró resultados prometedores en la generación de imágenes del conjunto de datos MNIST, con resultados variables en CIFAR-10 y desafíos significativos en CIFAR-100. Las métricas de evaluación como la precisión, el puntaje F1 y la pérdida mostraron comportamientos esperados en el conjunto de entrenamiento, pero con variabilidad en el conjunto de prueba.vLos resultados mostraron que el generador de la cGAN pudo generar imágenes del MNIST de manera precisa, no obstante el desempeño con el CIFAR-10 fue muy bajo y para el CIFAR-100 fue aún peor. Las métricas como la precisión (accuracy), el F1-score y la pérdida (loss) indicaron un buen desempeño en el conjunto de entrenamiento pero mostraron mucha variabilidad y ruido en el conjunto de prueba.
+Durante el desarrollo del proyecto, se experimentó con diferentes arquitecturas y técnicas de regularización para optimizar el rendimiento del generador y el discriminador de la cGAN. Se observó que utilizando cGAN en general, se lograron resultados muy positivos en la generación de imágenes del conjunto de datos MNIST, mientras que para el CIFAR-10 y CIFAR-100, no fue tan positivo el resultado. Las métricas de evaluación como la precisión, el puntaje F1 y la pérdida mostraron comportamientos esperados en el conjunto de entrenamiento, pero con mucha variabilidad en el conjunto de prueba. Los resultados mostraron que el generador de la cGAN pudo generar imágenes del MNIST de manera precisa, no obstante el desempeño con el CIFAR-10 fue muy bajo y para el CIFAR-100 fue aún peor. 
 
 # Análisis Exploratorio de Datos (EDA) y PCA
 
 Se realizó un análisis exploratorio de datos (EDA) sobre los datasets utilizados, seguido de un análisis de Componentes Principales (PCA) para explorar la estructura y la varianza de los datos.
 
-Inicialmente, se realizó un análisis exploratorio de datos utilizando el paquete Pandas de Python para explorar la distribución y la estructura del dataset. Este análisis incluyó examinar la distribución de las etiquetas y las características del dataset utilizando funciones como describe(), info() e histogramas y para comprender la variabilidad y la frecuencia de los datos. Para el MNIST y el CIFAR 10, cada pixel por cada canal representa una caracteristica de la imagen, de esta manera el MNIST tiene 28x28x1 + 1 = 785 features y el CIFAR10 32x32x3 + 1 = 3073 feature (donde tambien se esta contando el label correspondiente a la imagen).
+Inicialmente, se realizó un análisis exploratorio de datos utilizando el paquete Pandas de Python para explorar la distribución y la estructura del dataset. Este análisis incluyó examinar la distribución de las etiquetas y las características del dataset utilizando funciones como describe(), info() e histogramas y para comprender la variabilidad y la frecuencia de los datos. Para el MNIST y el CIFAR 10, cada pixel por cada canal representa una característica de la imagen, de esta manera el MNIST tiene 28x28x1 + 1 = 785 features y el CIFAR10 32x32x3 + 1 = 3073 features (donde también se esta contando el label correspondiente a la imagen).
 
 Posteriormente, se aplicó el análisis de Componentes Principales (PCA) para explorar la estructura de los datos en un espacio dimensional reducido. Se calculó la suma acumulada de la varianza explicada por los componentes principales. Para el MNIST se observó que la varianza explicada alcanza valores cercanos a 1 después de considerar aproximadamente 200 componentes principales mientras que para el CIFAR10 se requieren 400. Esto sugiere que se necesitan un gran número de componentes para capturar la mayoría de la variabilidad en los datos. 
 
@@ -78,26 +78,22 @@ El discriminador es una red neuronal que distingue entre imágenes reales y gene
     Las características extraídas se aplanan y pasan por una capa densa final que produce una probabilidad escalar. Esta probabilidad indica si la imagen es real o generada. Se utiliza una función de activación sigmoide para asegurar que la salida esté en el rango [0, 1] siendo 0 totalmente fake y 1 totalmente real.
 
 
-# Cálculo de la Loss en cGANs
+# Cálculo de la Loss en cGANs (juego minimax)
 
-En una red Generative Adversarial Network (GAN), y por extensión en una Conditional GAN (cGAN), el objetivo es entrenar dos redes neuronales, un generador (G) y un discriminador (D), que compiten entre sí. El discriminador trata de distinguir entre las imágenes reales y las generadas por el generador, mientras que el generador intenta crear imágenes que sean indistinguibles de las reales para el discriminador.
+En una Generative Adversarial Network (GAN), y por extensión en una Conditional GAN (cGAN), el objetivo es entrenar dos redes neuronales, un generador (G) y un discriminador (D), que compitan entre sí. En dicha competencia, el discriminador trata de distinguir entre las imágenes reales y las generadas por el generador, mientras que el generador intenta crear imágenes que sean indistinguibles de las reales para el discriminador.
 
-En una Conditional Generative Adversarial Network (cGAN), el generador captura la distribución de los datos y se entrena de manera que intenta maximizar la probabilidad de que el Discriminador cometa un error. El Discriminador, por otro lado, se basa en un modelo que estima la probabilidad de que la muestra que recibe proviene de los datos de entrenamiento y no del Generador. Las GANs se formulan como un juego de minimax, donde el Discriminador intenta maximizar su recompensa V(D, G) y el Generador intenta minimizar la recompensa del Discriminador, o en otras palabras, maximizar su pérdida. Esto se puede describir matemáticamente con la siguiente fórmula:
+En una Conditional Generative Adversarial Network (cGAN), el generador captura la distribución de los datos y se entrena de manera que intenta maximizar la probabilidad de que el discriminador cometa un error. El discriminador, por otro lado, se basa en un modelo que estima la probabilidad de que la muestra que recibe proviene de los datos de entrenamiento y no del generador. Las GANs se formulan como un juego de minimax, donde el discriminador intenta maximizar su recompensa V(D, G) y el generador intenta minimizar la recompensa del discriminador, o en otras palabras, maximizar su pérdida. Esto se puede describir matemáticamente con la siguiente fórmula:
 
-![alt text](<images/CodeCogsEqn (58).png>)
+![alt text](<images/CodeCogsEqn (59).png>)
 
-La primera parte de la expresión en el lado derecho de la ecuación corresponde a las predicciones del discriminador sobre los datos reales. La esperanza (E) del logaritmo de D(x) significa el promedio de las predicciones del discriminador si se toma una muestra de datos reales y se los alimenta al discriminador.
+donde E representa el operador de esperanza y se utiliza para denotar el valor esperado de una variable aleatoria. En este contexto, E_{x ~ p_{data}} representa el valor esperado con respecto a la distribución de datos reales p_{data}(x), E_{z ~ p_z(z)} representa el valor esperado con respecto a la distribución de ruido p_z(z), e y representa la etiqueta debido a que estamos trabajando con una conditional GAN.
 
-El discriminador quiere maximizar este valor porque representa la confianza de que los datos son reales. El generador no está involucrado en esta parte del proceso de entrenamiento.
-
-La segunda parte de la expresión es la esperanza o promedio de las predicciones del discriminador sobre los datos falsos generados por el generador. D(G(z)) es la salida del discriminador cuando se alimentan muestras falsas. E es el promedio de las predicciones cuando se extraen todas las entradas de ruido del generador.
-
-El Discriminador quiere que D(G(z)) sea minimizado para asegurarse de que las muestras falsas sean efectivamente clasificadas como falsas. Como el Generador quiere engañar al Discriminador, desea maximizar este valor. Por lo tanto, hay una operación de minimax en el contexto de un juego adversarial. El juego se llama "de suma cero" ya que una parte pierde mientras la otra gana y viceversa.
-
-La expresión ( 1 - D(G(z))) se usa para transformar la cantidad de algo que el discriminador quiere minimizar en algo que quiere maximizar. Así que, si sumamos las dos expresiones, el Discriminador busca maximizar todo, mientras que el Generador busca minimizarlo.
+En la fórmula, el primer término del lado derecha incentiva al discriminador a clasificar correctamente las muestras reales mientras que el segundo término incentiva al generador a producir muestras que sean clasificadas como reales por el discriminador.
 
 En resumen:
-    El discriminador se entrena para maximizar la probabilidad de asignar la etiqueta correcta a las imágenes reales y generadas. El generador se entrena para minimizar la probabilidad de que el discriminador clasifique las imágenes generadas como falsas.
+    El discriminador se entrena para maximizar la probabilidad de asignar la etiqueta correcta a las imágenes reales y generadas. El generador se entrena para minimizar la probabilidad de que el discriminador clasifique las imágenes generadas como falsas. En la siguiente figura se esquematiza el proceso descripto.
+
+![alt text](images/image3.png)
 
 # Teoría sobre Métricas de Evaluación en Machine Learning
 
@@ -135,17 +131,17 @@ En Machine Learning, las métricas de evaluación son herramientas clave para me
 En este punto se mencionarán las características más relevantes de cada modelo. Para más detalles se puede entrar a cada archivo .ipynb donde se encontrá la implementación completa de cada modelo.
 
 - modelo_1_mnist: 
-    Escencialmente la arquitectura es la implementada en https://www.geeksforgeeks.org/conditional-generative-adversarial-network/ donde entrenaron la red para aprender las imagenes del CIFAR10. En este caso, se modificó la implementación para aprender las imagenes del mnist. Además, se agregaron diversas medidas para evaluar la performance del modelo. Por último, se agregó el código necesario para predecir una imagen de un número ingresado por el usuario. 
+    Esencialmente la arquitectura es la implementada en https://www.geeksforgeeks.org/conditional-generative-adversarial-network/ donde entrenaron la red para aprender las imágenes del CIFAR10. En este caso, se modificó la implementación para aprender las imagenes del mnist. Además, se agregaron diversas medidas para evaluar la performance del modelo. Por último, se agregó el código necesario para predecir una imagen de un número ingresado por el usuario. 
 
-    Esta arquitectura cuenta con dos capas de deconvolución en el generador, 2 capas de deconvolución en el discriminador y no varía la cantidad de filtros. Originalmente la red utilizaba un optimizador Adam pero las imagenes producidas eran totalmente oscuras por lo que se cambió a un optimizador RMSprop muy utilizado en general para las cGANs. Esta arquitectura cuenta con aproximadamente 1M de parámetros (se puede ver en el archivo .ipynb)
+    Esta arquitectura cuenta con dos capas de deconvolución en el generador, 2 capas de deconvolución en el discriminador y no varía la cantidad de filtros. Originalmente la red utilizaba un optimizador Adam pero las imagenes producidas eran totalmente oscuras por lo que se cambió a un optimizador RMSprop muy utilizado en general para las cGANs. Esta arquitectura cuenta con aproximadamente 1M de parámetros (se puede ver en el archivo .ipynb).
 
     Cada época consiste en procesar 60000 datos de entrenamiento y 10000 datos de validación, demorando en este caso aproximadamente 58 segundos. 
 
-    Se grafico la Loss para cada iteración obteniendo resultados muy ruidosos pero similares al obtenido en trabajos anteriores (ver figura)
+    Se graficó la Loss para cada iteración obteniendo resultados muy ruidosos pero similares al obtenido en trabajos anteriores (ver figura).
 
     ![alt text](images/image1.png)
 
-    este resultado es consistente con el hecho de que las cGANs se entrenan mediante un juego de mini-max de dos jugadores donde el generador y el discriminador compiten entre sí. Este proceso competitivo lleva a ambos modelos a mejorar continuamente hasta que alcanzan un equilibrio en el que las imágenes generadas son muy realistas y difíciles de distinguir de las imágenes reales. 
+    Este resultado es consistente con el hecho de que las cGANs se entrenan mediante un juego de mini-max de dos jugadores donde el generador y el discriminador compiten entre sí. Este proceso competitivo lleva a ambos modelos a mejorar continuamente hasta que alcanzan un equilibrio en el que las imágenes generadas son muy realistas y difíciles de distinguir de las imágenes reales. 
 
     En cuanto a la loss para las epocas se observa que el conjunto de testeo es muy ruidoso pero sigue el comportamiento del conjunto de entrenamiento, ocurre lo mismo para las métricas del discriminador. En el discriminador se observa que luego de 20 épocas comienza a disminuir el rendimiento del mismo. A partir de esta última observación se reentrenó el modelo hasta la iteración 20 (v2). Las métricas del discriminador indican buen desempeño del mismo clasificando imagenes llegando a valores de accuracy de 0.9 aproximadamente.
 
@@ -156,8 +152,7 @@ En este punto se mencionarán las características más relevantes de cada model
 - modelo_3_mnist:
     Este modelo es una versión reducida del siguiente paper [text](papers/41598_2022_Article_20654.pdf). A diferencia del modelo 1 cuenta con más capas de deconvolución en el generador y discriminador, cantidad variable de filtros, tamaño de filtro más grande y capas de Dropout y batchnormalization. Esta arquitectura cuenta con aproximadamente 5M de parámetros.
 
-    
-    Originalmente la red implementada en este trabajo se utilizó para generar imagenes fake de letras en todos los idiomas para hacer transfer learning, por lo tanto, se infirió que debía ser buena para generar los digitos del mnist. No obstante, la gráfica de la loss muestra comportamientos extraños para el conjunto de testeo, muy ruidosos. Además demasiado buen desempeño del discriminador, es decir loss casi nula y presición mayor a 0.9. Todo esto indicaría que esta red está overfitiando, posiblemente debido a que es una red muy compleja para un conjunto de entrenamiento relativamente sencillo como el MNIST. 
+    Originalmente la red implementada en este trabajo se utilizó para generar imagenes fake de letras en todos los idiomas para hacer transfer learning, por lo tanto, se infirió que debía ser buena para generar los digitos del mnist. No obstante, la gráfica de la loss muestra comportamientos extraños para el conjunto de testeo, muy ruidosos. Además, se obtuvo  demasiado buen desempeño del discriminador, es decir loss casi nula y precisión mayor a 0.9. Todo esto indicaría que esta red está overfiteando, posiblemente debido a que es una red muy compleja para un conjunto de entrenamiento relativamente sencillo como el MNIST. 
 
     Las imagenes predecidas muestran, al igual que el modelo 1 que el generador es capaz de producir perfectamente las imagenes fake para cada dígito.
 
@@ -180,7 +175,9 @@ En este punto se mencionarán las características más relevantes de cada model
     En la evaluación del modelo, las métricas, función loss, tiempo de compilación no se observan cambios significativos al modelo 3. Sin embargo, en las imagenes generadas se observa una mejora. Esto puede ser debido a que añadir más capas al generador, le permite al modelo captar mejor las características de cada imagen.
 
 - modelo_5_cifar100:
-    Este modelo es ahora una versión más compleja del modelo 3 y 4, cuenta con 4 capas de deconvolución en el generador y 5 capas de convolución en el discriminador por lo que cuenta con una cantidad mucho más grandes de filtros llegando a tener 55M de parámetros. 
+    Este modelo es ahora una versión más compleja del modelo 3 y 4, cuenta con 4 capas de deconvolución en el generador y 5 capas de convolución en el discriminador por lo que cuenta con una cantidad mucho más grandes de filtros llegando a tener 55M de parámetros. Esta versión sí es como la del paper citado anteriormente [text](papers/41598_2022_Article_20654.pdf). En la figura se muestra un diagrama de su arquitectura
+
+    ![alt text](images/image2.png)
 
     El tiempo de compilación fue de 115 segundos, lo cual es muy bueno teniendo en cunta que hay muchos más parámetros. Esto indica que el cuello de botella está en el número de imágenes.
 
@@ -197,7 +194,7 @@ En este punto se mencionarán las características más relevantes de cada model
     - V3: Se cambió el optimizar a Adam agrando el batch size a 50 y cambié el batchsize a 50.
     - V4: Igual que v3 pero se volvió a RMSprop.
 
-    Las versiones 1 y 2 tienen pocas épocas debido al tiempo de compilación que permitía COLAB. En las versiones 3 y 4 se observa una mejoría en las funciones de loss indicando overfitting a partir de la 5 época. 
+    Las versiones 1 y 2 tienen pocas épocas debido al tiempo de compilación que permitía COLAB. En las versiones 3 y 4 se observa una mejoría en las funciones de loss indicando overfitting a partir de la quinta época. 
 
     En este caso, existen imágenes generadas que se asemejan a lo esperado y un humano externo puede identificar qué es solo viendo la imagen. Sin embargo, hay que realizar varias generaciones de una misma imágen hasta obtener una buena imagen que se parezca a lo esperado.
 
