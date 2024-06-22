@@ -150,7 +150,7 @@ En este punto se mencionarán las características más relevantes de cada model
     Nota: En la versión 1 no se pueden generar imagenes fake con este modelo porque se importó en formato .keras que luego me enteré que es incompatible y que debía exportar en formato .h5. No obstante en la carpeta evolution se pueden ver las imagenes fake producidas para cada dígito. En la versión 2 sí se puede.
 
 - modelo_3_mnist:
-    Este modelo es una versión reducida del siguiente paper [text](papers/41598_2022_Article_20654.pdf). A diferencia del modelo 1 cuenta con más capas de deconvolución en el generador y discriminador, cantidad variable de filtros, tamaño de filtro más grande y capas de Dropout y batchnormalization. Esta arquitectura cuenta con aproximadamente 5M de parámetros.
+    Este modelo es una versión reducida del siguiente [paper](papers/41598_2022_Article_20654.pdf). A diferencia del modelo 1 cuenta con más capas de deconvolución en el generador y discriminador, cantidad variable de filtros, tamaño de filtro más grande y capas de Dropout y batchnormalization. Esta arquitectura cuenta con aproximadamente 5M de parámetros.
 
     Originalmente la red implementada en este trabajo se utilizó para generar imagenes fake de letras en todos los idiomas para hacer transfer learning, por lo tanto, se infirió que debía ser buena para generar los digitos del mnist. No obstante, la gráfica de la loss muestra comportamientos extraños para el conjunto de testeo, muy ruidosos. Además, se obtuvo  demasiado buen desempeño del discriminador, es decir loss casi nula y precisión mayor a 0.9. Todo esto indicaría que esta red está overfiteando, posiblemente debido a que es una red muy compleja para un conjunto de entrenamiento relativamente sencillo como el MNIST. 
 
