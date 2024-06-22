@@ -175,7 +175,7 @@ En este punto se mencionarán las características más relevantes de cada model
     En la evaluación del modelo, las métricas, función loss, tiempo de compilación no se observan cambios significativos al modelo 3. Sin embargo, en las imagenes generadas se observa una mejora. Esto puede ser debido a que añadir más capas al generador, le permite al modelo captar mejor las características de cada imagen.
 
 - modelo_5_cifar100:
-    Este modelo es ahora una versión más compleja del modelo 3 y 4, cuenta con 4 capas de deconvolución en el generador y 5 capas de convolución en el discriminador por lo que cuenta con una cantidad mucho más grandes de filtros llegando a tener 55M de parámetros. Esta versión sí es como la del paper citado anteriormente [text](papers/41598_2022_Article_20654.pdf). En la figura se muestra un diagrama de su arquitectura
+    Este modelo es ahora una versión más compleja del modelo 3 y 4, cuenta con 4 capas de deconvolución en el generador y 5 capas de convolución en el discriminador por lo que cuenta con una cantidad mucho más grandes de filtros llegando a tener 55M de parámetros. Esta versión sí es como la del [paper](papers/41598_2022_Article_20654.pdf) citado anteriormente . En la figura se muestra un diagrama de su arquitectura
 
     ![alt text](images/image2.png)
 
