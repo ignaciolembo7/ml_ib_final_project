@@ -40,7 +40,7 @@ El generador en una cGAN es responsable de crear imágenes sintéticas que se as
 - Transformación de la Etiqueta:
     La salida de la capa de embedding se pasa a través de una capa densa y se reconfigura en una forma adecuada para ser concatenada con el vector de ruido. Esto implica redimensionar el vector de embedding en una matriz de la misma resolución que una parte del ruido.
 
--Entrada de Ruido:
+- Entrada de Ruido:
     El generador también recibe un vector de ruido, que se transforma mediante una capa densa para generar una matriz tridimensional.
 
 - Concatenación:
@@ -110,12 +110,12 @@ En Machine Learning, las métricas de evaluación son herramientas clave para me
     - FN (False Negative): Número de ejemplos positivos incorrectamente clasificados como negativos.
 
 - Precision (Precisión)
-    La precisión mide la proporción de ejemplos positivos que fueron correctamente identificados.
+    Proporción de verdaderos positivos sobre el total de predicciones positivas.
 
     ![alt text](<images/CodeCogsEqn (54).png>)
 
 - Recall (Recuperación o Sensibilidad)
-    El recall mide la proporción de ejemplos positivos que fueron correctamente identificados por el modelo.
+    Proporción de verdaderos positivos sobre el total de ejemplos positivos.
 
     ![alt text](<images/CodeCogsEqn (55).png>)
 
